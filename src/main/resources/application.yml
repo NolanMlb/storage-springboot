@@ -1,0 +1,18 @@
+spring:
+  data:
+    mongodb:
+      host: ${MONGO_HOST:localhost}
+      port: ${MONGO_PORT:27017}
+      database: storage
+nextu:
+  filestore: /Users/nolan/Documents/webtech-cours/SpringBoot/computer-science-course/api/TP/storage/filestore/
+  app:
+    jwtSecret: xhxhh137373uddjshkjqshfkjqhkfhilieufizefhiu
+    refreshJwtSecret: xhxhh137373uddjshkjqshfkjqhkfhilieufizefhiu1
+    jwtExpirationMs: 3600000
+    jwtRefreshExpirationMs: 86400000
+server:
+  port: 8088
+react:
+  host: ${REACT_HOST:localhost}
+  port: ${REACT_PORT:5173}
