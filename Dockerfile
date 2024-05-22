@@ -5,5 +5,7 @@ ENV MONGO_HOST="mongodb"
 ENV MONGO_PORT="27017"
 ENV REACT_HOST="app-react"
 ENV REACT_PORT="80"
+ENV SYMFONY_HOST="app-symfony"
+ENV SYMFONY_PORT="8000"
 EXPOSE 8088
 ENTRYPOINT [ "java","-jar","/app.jar" ]

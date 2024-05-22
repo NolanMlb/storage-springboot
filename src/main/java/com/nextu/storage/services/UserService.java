@@ -49,7 +49,7 @@ public class UserService {
     }
 
     public boolean checkIfUserAlreadyExist(String login){
-        return userRepository.findByLogin(login) !=null;
+        return userRepository.findByLogin(login).isPresent();
     }
 
 }

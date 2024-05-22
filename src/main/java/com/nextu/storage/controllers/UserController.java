@@ -2,18 +2,24 @@ package com.nextu.storage.controllers;
 
 import com.nextu.storage.dto.UserCreateDTO;
 import com.nextu.storage.dto.UserGetDTO;
+import com.nextu.storage.dto.WelcomeEmailDTO;
 import com.nextu.storage.entities.User;
 import com.nextu.storage.exceptions.UserContentException;
 import com.nextu.storage.payloads.LoginRequest;
 import com.nextu.storage.payloads.RefreshTokenRequest;
 import com.nextu.storage.payloads.response.JwtResponse;
-import com.nextu.storage.services.StorageService;
 import com.nextu.storage.services.UserDetailsImpl;
 import com.nextu.storage.services.UserService;
 import com.nextu.storage.utils.JwtUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,8 +38,9 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/api/users")
 public class UserController {
     private final UserService userService;
-    private final StorageService storageService;
     private final UserDetailsService userDetailsService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final PasswordEncoder encoder;
     private final JwtUtils jwtUtils;
     @Autowired
@@ -48,6 +56,27 @@ public class UserController {
         user.setLastName(userCreateDTO.getLastName());
         user.setLogin(userCreateDTO.getLogin());
         user.setPassword(encoder.encode(userCreateDTO.getPassword()));
+        // Call Symfony API
+        // It is not working yet because I can't call Symfony API -> the response is a 307 status code
+        String symfonyUrl = "http://localhost:8000/mail/welcome";
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        try {
+            logger.info("Sending request to Symfony: " + symfonyUrl);
+            // Create a JSON object with the parameters
+            String jsonParams = objectMapper.writeValueAsString(new WelcomeEmailDTO(userCreateDTO.getLogin(), userCreateDTO.getFirstName()));
+            logger.info("Parameters" + jsonParams);
+            // Send the request
+            HttpEntity<String> requestEntity = new HttpEntity<>(jsonParams, headers);
+            ResponseEntity<Object> responseEntity = restTemplate.postForEntity(symfonyUrl, requestEntity, Object.class);
+            logger.info("Response from Symfony: " + responseEntity);
+            // Get the response
+            Object response = responseEntity.getBody();
+            System.out.println(response);
+        } catch (Exception e) {
+            logger.error("Error while sending email: " + e.getMessage(), e);
+        }
         return ResponseEntity.ok(userService.create(user));
     }
 

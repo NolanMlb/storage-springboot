@@ -2,11 +2,13 @@ com/nextu/storage/utils/AuthTokenFilter.class
 com/nextu/storage/dto/UserGetDTO.class
 com/nextu/storage/payloads/response/MessageResponse.class
 com/nextu/storage/payloads/SignupRequest.class
+com/nextu/storage/payloads/RefreshTokenRequest.class
 com/nextu/storage/services/UserDetailsImpl.class
 com/nextu/storage/controllers/UserController.class
 com/nextu/storage/services/UserService.class
 com/nextu/storage/config/WebConfigurer.class
 com/nextu/storage/exceptions/FileContentException.class
+com/nextu/storage/exceptions/UserContentException.class
 com/nextu/storage/StorageApplication.class
 com/nextu/storage/dto/UserCreateDTO.class
 com/nextu/storage/dto/BucketDTO.class
@@ -29,7 +31,7 @@ com/nextu/storage/utils/AuthEntryPointJwt.class
 com/nextu/storage/utils/MimeTypeUtils.class
 com/nextu/storage/services/BucketService.class
 com/nextu/storage/services/UserDetailsServiceImpl.class
-com/nextu/storage/services/StoragService.class
+com/nextu/storage/services/StorageService.class
 com/nextu/storage/entities/User.class
 com/nextu/storage/utils/MimeTypeUtils$1.class
 com/nextu/storage/repository/UserRepository.class

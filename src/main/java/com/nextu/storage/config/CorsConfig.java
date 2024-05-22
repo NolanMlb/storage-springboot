@@ -20,7 +20,6 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // Autoriser toutes les origines, méthodes, et en-têtes
-        System.out.println("http://" + hostReact + ":" + portReact);
         config.addAllowedOrigin("http://" + hostReact + ":" + portReact);
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
