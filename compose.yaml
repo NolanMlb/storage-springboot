@@ -8,7 +8,7 @@ services:
   app-java:
     image: nolanmlb/app-java:1.0.4
     depends_on:
-      - mongodb
+      - kstoragemongo-svc
     ports:
       - "8088:8088"
     volumes:
@@ -17,7 +17,7 @@ services:
       - MONGO_HOST=mongodb
       - MONGO_PORT=27017
       - REACT_HOST=localhost
-  mongodb:
+  kstoragemongo-svc:
     image: mongo:latest
     ports:
       - "27017:27017"

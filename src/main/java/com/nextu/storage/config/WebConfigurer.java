@@ -32,6 +32,12 @@ public class WebConfigurer implements WebMvcConfigurer {
         if(authorizedPort!=null && !authorizedPort.isEmpty()){
             urlToBeAuthorize =urlToBeAuthorize +":"+authorizedPort;
         }
-        registry.addMapping("/**").allowedOrigins(urlToBeAuthorize);
+        registry.addMapping("/**").allowedOrigins(
+                urlToBeAuthorize,
+                "http://storageapp.com",
+                "https://storageapp.com",
+                "http://storageapp.com/api",
+                "https://storageapp.com/api"
+        );
     }
 }

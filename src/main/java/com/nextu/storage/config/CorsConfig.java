@@ -20,7 +20,7 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // Autoriser toutes les origines, méthodes, et en-têtes
-        config.addAllowedOrigin("http://" + hostReact + ":" + portReact);
+        config.addAllowedOrigin("https://storageapp.com");
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
 

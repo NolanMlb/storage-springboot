@@ -23,6 +23,7 @@ com/nextu/storage/utils/MimeTypeUtils$2.class
 com/nextu/storage/controllers/FileController.class
 com/nextu/storage/config/WebSecurityConfig.class
 com/nextu/storage/entities/Bucket.class
+com/nextu/storage/dto/WelcomeEmailDTO.class
 com/nextu/storage/repository/FileRepository.class
 com/nextu/storage/entities/FileData.class
 com/nextu/storage/services/FileService.class
