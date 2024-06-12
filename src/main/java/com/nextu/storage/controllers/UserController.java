@@ -57,15 +57,15 @@ public class UserController {
         user.setLogin(userCreateDTO.getLogin());
         user.setPassword(encoder.encode(userCreateDTO.getPassword()));
         // Call Symfony API
-        // It is not working yet because I can't call Symfony API -> the response is a 307 status code
-        String symfonyUrl = "http://localhost:8000/mail/welcome";
+        String symfonyUrl = "http://storageapp.com/mailer/mail/welcome";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         try {
             logger.info("Sending request to Symfony: " + symfonyUrl);
             // Create a JSON object with the parameters
-            String jsonParams = objectMapper.writeValueAsString(new WelcomeEmailDTO(userCreateDTO.getLogin(), userCreateDTO.getFirstName()));
+            WelcomeEmailDTO welcomeEmailDTO = new WelcomeEmailDTO(userCreateDTO.getLogin(), userCreateDTO.getFirstName());
+            String jsonParams = objectMapper.writeValueAsString(welcomeEmailDTO);
             logger.info("Parameters" + jsonParams);
             // Send the request
             HttpEntity<String> requestEntity = new HttpEntity<>(jsonParams, headers);
