@@ -6,6 +6,7 @@ com/nextu/storage/payloads/RefreshTokenRequest.class
 com/nextu/storage/services/UserDetailsImpl.class
 com/nextu/storage/controllers/UserController.class
 com/nextu/storage/services/UserService.class
+com/nextu/storage/config/S3Config.class
 com/nextu/storage/config/WebConfigurer.class
 com/nextu/storage/exceptions/FileContentException.class
 com/nextu/storage/exceptions/UserContentException.class

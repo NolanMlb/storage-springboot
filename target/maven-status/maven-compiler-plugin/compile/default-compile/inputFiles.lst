@@ -5,6 +5,7 @@
 /Users/nolan/Documents/webtech-cours/projet-fullstack/SPRINGBOOT/storage/src/main/java/com/nextu/storage/dto/BucketDTO.java
 /Users/nolan/Documents/webtech-cours/projet-fullstack/SPRINGBOOT/storage/src/main/java/com/nextu/storage/payloads/response/MessageResponse.java
 /Users/nolan/Documents/webtech-cours/projet-fullstack/SPRINGBOOT/storage/src/main/java/com/nextu/storage/payloads/LoginRequest.java
+/Users/nolan/Documents/webtech-cours/projet-fullstack/SPRINGBOOT/storage/src/main/java/com/nextu/storage/config/S3Config.java
 /Users/nolan/Documents/webtech-cours/projet-fullstack/SPRINGBOOT/storage/src/main/java/com/nextu/storage/utils/JwtUtils.java
 /Users/nolan/Documents/webtech-cours/projet-fullstack/SPRINGBOOT/storage/src/main/java/com/nextu/storage/dto/WelcomeEmailDTO.java
 /Users/nolan/Documents/webtech-cours/projet-fullstack/SPRINGBOOT/storage/src/main/java/com/nextu/storage/repository/BucketRepository.java

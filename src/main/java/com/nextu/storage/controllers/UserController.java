@@ -21,6 +21,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,37 +47,45 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @PostMapping(value = "/",produces = { "application/json", "application/xml" })
+    @PostMapping(value = "/", produces = {"application/json", "application/xml"})
     public ResponseEntity<UserGetDTO> create(@RequestBody UserCreateDTO userCreateDTO) throws UserContentException {
-        if (userService.checkIfUserAlreadyExist(userCreateDTO.getLogin())){
-            throw new UserContentException("User with login "+userCreateDTO.getLogin()+" already exist");
+        if (userService.checkIfUserAlreadyExist(userCreateDTO.getLogin())) {
+            throw new UserContentException("User with login " + userCreateDTO.getLogin() + " already exists");
         }
+
         User user = new User();
         user.setFirstName(userCreateDTO.getFirstName());
         user.setLastName(userCreateDTO.getLastName());
         user.setLogin(userCreateDTO.getLogin());
         user.setPassword(encoder.encode(userCreateDTO.getPassword()));
+
         // Call Symfony API
-        String symfonyUrl = "http://storageapp.com/mailer/mail/welcome";
+        String symfonyUrl = "http://kstoragesymfony-nodeport:89/mailer/mail/welcome";
         RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+
         try {
             logger.info("Sending request to Symfony: " + symfonyUrl);
+
             // Create a JSON object with the parameters
             WelcomeEmailDTO welcomeEmailDTO = new WelcomeEmailDTO(userCreateDTO.getLogin(), userCreateDTO.getFirstName());
             String jsonParams = objectMapper.writeValueAsString(welcomeEmailDTO);
-            logger.info("Parameters" + jsonParams);
+            logger.info("Parameters: " + jsonParams);
+
             // Send the request
             HttpEntity<String> requestEntity = new HttpEntity<>(jsonParams, headers);
-            ResponseEntity<Object> responseEntity = restTemplate.postForEntity(symfonyUrl, requestEntity, Object.class);
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(symfonyUrl, requestEntity, String.class);
             logger.info("Response from Symfony: " + responseEntity);
+
             // Get the response
-            Object response = responseEntity.getBody();
+            String response = responseEntity.getBody();
             System.out.println(response);
         } catch (Exception e) {
             logger.error("Error while sending email: " + e.getMessage(), e);
         }
+
         return ResponseEntity.ok(userService.create(user));
     }
 

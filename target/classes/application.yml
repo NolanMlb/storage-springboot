@@ -16,3 +16,8 @@ server:
 react:
   host: ${REACT_HOST:localhost}
   port: ${REACT_PORT:5173}
+s3:
+  access_key: 'AKIAZQ3DTNSL7PPZDAJ3'
+  secret_access_key: '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'
+  region: 'eu-west-3'
+  bucket_name: 'storageapp-nextu'

@@ -1,5 +1,9 @@
 package com.nextu.storage.services;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.nextu.storage.exceptions.FileContentException;
 import com.nextu.storage.utils.FileUtils;
 import jakarta.annotation.PostConstruct;
@@ -7,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -27,6 +32,11 @@ public class StorageService {
     private String SERVER_LOCATION;
     private Path root;
     private final Logger logger = LoggerFactory.getLogger(StorageService.class);
+    @Autowired
+    private AmazonS3 amazonS3;
+
+    @Value("${s3.bucket_name}")
+    private String bucketName;
 
     @PostConstruct
     public void init() {
@@ -41,6 +51,19 @@ public class StorageService {
     public void save(MultipartFile file, String fileNameInFolder) throws FileContentException {
         copyFile(file, fileNameInFolder);
     }
+
+    public String uploadFile(MultipartFile file, String fileName) {
+        try {
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentLength(file.getSize());
+            amazonS3.putObject(new PutObjectRequest(bucketName, fileName, file.getInputStream(), metadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fileName;
+    }
+
     private void copyFile(MultipartFile file, String fileNameInFolder) throws FileContentException {
         try {
             Files.copy(file.getInputStream(), this.root.resolve(fileNameInFolder));

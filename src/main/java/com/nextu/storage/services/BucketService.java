@@ -28,6 +28,8 @@ public class BucketService {
     }
 
     public Bucket findById(String id) {
-        return bucketRepository.findById(id).orElseGet(null);
+        return bucketRepository.findById(id).orElseThrow(() -> {
+            return new RuntimeException("Bucket not found");
+        });
     }
 }
