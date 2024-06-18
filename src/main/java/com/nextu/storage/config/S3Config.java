@@ -11,10 +11,11 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
 @Configuration
 public class S3Config {
-
+    // Define your access key in application.yml
     @Value("${s3.access_key}")
     private String awsAccessKey;
 
+    // You have to define your secret key in application.yml
     @Value("${s3.secret_access_key}")
     private String awsSecretKey;
 

@@ -17,7 +17,5 @@ react:
   host: ${REACT_HOST:localhost}
   port: ${REACT_PORT:5173}
 s3:
-  access_key: ''
-  secret_access_key: ''
   region: 'eu-west-3'
   bucket_name: 'storageapp-nextu'
